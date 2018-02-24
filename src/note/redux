@@ -1,0 +1,161 @@
+1. npm i -S redux
+
+2. demo
+
+    import { createStore } from 'redux'
+
+    function counter(state=0, action){
+        switch(action.type){
+            case "add":
+                return state+1
+            case "sub":
+                return state-1
+            default:
+                return state
+        }
+    }
+
+    const store = createStore(counter)
+
+    const init = store.getState()
+
+    console.log(init)
+
+    store.dispatch({
+        type:"add"
+    })
+
+    //action 封装成函数
+    funtion add(){
+        return {type:"add"}
+    }
+
+    store.dispatch(add())
+
+    console.log(store.getState())
+
+    状态改变后执行
+    store.subscribe(fn)
+
+
+
+    使用方法：
+        在 index.js 建立 store 通过 props 传递，
+        action 也可以写成方法，同样通过props 传递，
+        子组件去调用，
+        通过 subscribe 监听变化重新渲染，很不方便
+
+3. 异步处理
+
+    cnpm i -S redux-thunk
+
+    开启
+
+    import { createStore, applyMiddleware } from 'redux'
+    import thunk from 'reduxDevtools-thunk'
+
+    const store = createStore(counter,applyMiddleware（thunk))
+
+    action:
+    function add(){
+        return dispatch=>{
+            ...
+            dispatch({...})
+        }
+    }
+
+4.  安装 redux 调试工具
+    Chrome 扩展搜索一下 redux
+
+    import { createStore, applyMiddleware, compose } from 'redux'
+
+    const reduxDevtools = window.devToolsExtension?window.devToolsExtension():f=>f
+    const store = createStore(reducers, compose(applyMiddleware(thunk), reduxDevtools))
+
+5.  便捷写法
+
+    cnpm i -S react-redux  
+    
+    index中：
+        import { Provider } from 'react-redux'
+
+        <Provider store={store} > 
+            xxx
+        </Provider>
+    
+    组件中:
+        import { connect } from 'react-redux'
+        
+
+        mapStatetoProps(state){
+            return {num:state}
+        }
+        
+        const actionCreators = {action1, aciton2, action3}
+
+        App = connect(mapStatetoProps,actionCreators)(App)
+
+    不再需要 subscribe
+
+6. connect 使用装饰器
+
+    cnpm i -D babel-plugin-transform-decorators-legacy
+
+    配置：
+    ["transform-decorators-legacy"]
+
+    package.json 中
+
+    "babel": {
+        "presets": [
+        "react-app"
+        ],
+        "plugins": [
+        [
+            "import",
+            {
+            "libraryName": "antd-mobile",
+            "style": "css"
+            }
+        ],
+        ["transform-decorators-legacy"]
+        ]
+    },
+
+    使用方法：
+        @connect(
+            state=>({num:state}),
+            {action1, aciton2, action3}
+        )
+
+7. 多个 reducer
+    需要一个专门的 reducer.js
+
+    //合并所有 reduer 并返回
+
+    import { combineReducers } from 'redux'
+
+    export default combineReducers(reducer1, reducer2)
+
+    现在的 state : 
+        {
+            reducer1: xx,
+            reducer2: xx
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+1. 安装 react 调试工具
+    Chrome 扩展搜索一下 react 
+
+2. antd 组件库
+    cnpm i -S antd-mobile
+    按需加载
+    cnpm i -D babel-plugin-import
+    npm run eject 后, 配置package.json
+
+    "babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      ["import", { "libraryName": "antd-mobile", "style": "css" }]
+    ]
+  },
+
+3.  "emmet.triggerExpansionOnTab": true,
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
